@@ -48,6 +48,11 @@ namespace internal {
 // to Snapshot(). The Read() method relocates individual reads, discarding
 // the initial padding from each group leader in the values buffer such that
 // all user accesses through the [] operator are correct.
+// 通常，我们只能读取少量的计数器。
+// 当用一个系统调用读取多个计数器时，计数器的值前面还有一个填充物（这是很理想的）。
+// PerfCounterValues对这些细节进行了抽象。该实现确保存储是内联的，并允许基于0的索引进入计数器值。
+// 该对象与PerfCounters对象一起使用，并将其传递给Snapshot()。
+// Read()方法重新定位单个读数，丢弃数值缓冲区中每个组长的初始填充，从而使所有用户通过[]操作符的访问都是正确的。
 class BENCHMARK_EXPORT PerfCounterValues {
  public:
   explicit PerfCounterValues(size_t nr_counters) : nr_counters_(nr_counters) {

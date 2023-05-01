@@ -1685,13 +1685,14 @@ struct BENCHMARK_EXPORT BenchmarkName {
 // can control the destination of the reports by calling
 // RunSpecifiedBenchmarks and passing it a custom reporter object.
 // The reporter object must implement the following interface.
+// 打印测试报告。默认，打印到stdout
+// 通过向 RunSpecifiedBenchmarks 传递一个自定义Reporter，从而可以控制报告的目的地
 class BENCHMARK_EXPORT BenchmarkReporter {
  public:
   struct Context {
     CPUInfo const& cpu_info;
     SystemInfo const& sys_info;
-    // The number of chars in the longest benchmark name.
-    size_t name_field_width;
+    size_t name_field_width;  // benchmark名称的最大字符数
     static const char* executable_name;
     Context();
   };
@@ -1809,6 +1810,12 @@ class BENCHMARK_EXPORT BenchmarkReporter {
   // Additionally if this group of runs was the last in a family of benchmarks
   // 'reports' contains additional entries representing the asymptotic
   // complexity and RMS of that benchmark family.
+  // 对每组基准运行(benchmark runs)调用一次
+  // 给出基准运行期间的cpu时间和堆内存使用信息。
+  // 如果这组运行包含两个以上的条目
+  //   -- 那么'报告'就包含代表这些运行的平均值和标准差的额外元素。
+  // 如果这组运行是一个基准系列中的最后一个
+  //   --那么'报告'就包含了代表该基准系列的渐进复杂度和均方根的额外条目。
   virtual void ReportRuns(const std::vector<Run>& report) = 0;
 
   // Called once and only once after ever group of benchmarks is run and
@@ -1852,7 +1859,7 @@ class BENCHMARK_EXPORT ConsoleReporter : public BenchmarkReporter {
   enum OutputOptions {
     OO_None = 0,
     OO_Color = 1,
-    OO_Tabular = 2,
+    OO_Tabular = 2,  // 表格式
     OO_ColorTabular = OO_Color | OO_Tabular,
     OO_Defaults = OO_ColorTabular
   };

@@ -66,7 +66,7 @@ class ThreadTimer {
     return ThreadCPUUsage();
   }
 
-  // should the thread, or the process, time be measured?
+  // 度量进程还是线程的cpu时间？
   const bool measure_process_cpu_time;
 
   bool running_ = false;        // Is the timer running

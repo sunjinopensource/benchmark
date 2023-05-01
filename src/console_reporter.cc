@@ -89,6 +89,9 @@ void ConsoleReporter::ReportRuns(const std::vector<Run>& reports) {
     // As an alternative to printing the headers like this, we could sort
     // the benchmarks by header and then print. But this would require
     // waiting for the full results before printing, or printing twice.
+    // 作为像这样打印标题的替代方法，
+    // 可以按标题对基准进行排序，然后再打印。
+    // 但这需要在打印前等待全部结果，或者打印两次。
     PrintRunData(run);
   }
 }
