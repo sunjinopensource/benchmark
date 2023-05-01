@@ -1016,8 +1016,8 @@ struct State::StateIterator {
 
   BENCHMARK_ALWAYS_INLINE
   bool operator!=(StateIterator const&) const {
-    if (BENCHMARK_BUILTIN_EXPECT(cached_ != 0, true)) return true;
-    parent_->FinishKeepRunning();
+    if (BENCHMARK_BUILTIN_EXPECT(cached_ != 0, true)) return true;  // 仍有剩余次数，继续迭代
+    parent_->FinishKeepRunning();  // 本轮迭代次数用完，结束
     return false;
   }
 

@@ -415,6 +415,8 @@ void RunBenchmarks(const std::vector<BenchmarkInstance>& benchmarks,
     assert(repetition_indices.size() == num_repetitions_total &&
            "Unexpected number of repetition indexes.");
 
+    // 随机交错: 一种降低每次运行差异的技术
+    // 详见 https://github.com/google/benchmark/blob/main/docs/random_interleaving.md
     if (FLAGS_benchmark_enable_random_interleaving) {
       std::random_device rd;
       std::mt19937 g(rd());
